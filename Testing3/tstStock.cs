@@ -26,9 +26,19 @@ namespace Testing3
         public void ValidMethodOK()
         {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid(1, "", 2, "Food", "", "2022-05-06 16:36:55");
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-06 16:36:55");
             Assert.AreEqual(Error, "");
         }
+
+
+        [TestMethod]
+        public void InvalidDate()
+        {
+            clsStock clsStock = new clsStock();
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-32 16:36:55");
+            Assert.AreEqual(Error, "Time is invalid : ");
+        }
+
 
         [TestMethod]
         public void TestStockNotFound() {

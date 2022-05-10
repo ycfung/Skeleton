@@ -56,21 +56,41 @@ namespace ClassLibrary
         public string Time { get => time; set => time = value; }
         public bool Available { get => available; set => available = value; }
 
-        public string Valid(int id, string name, int quantity, string type, string remark, string time)
+        public string Valid(string id, string name, string quantity, string type, string remark, string time)
         {
             String Error = "";
-            if (id <= 0)
-                Error += "Id is less or equal to 0 : ";
+
+            if (id.Length == 0)
+                Error += "Id should not be blank : ";
+            else if (!int.TryParse(id, out _))
+                Error += "Id should be a number : ";
+            else if (Int32.Parse(id) <= 0)
+                Error += "Id should be a negative number : ";
+
             if (name.Length > 20)
                 Error += "The length of name is greater than 20 : ";
-            if (quantity > 500)
+            else if (name.Length == 0)
+                Error += "Name should not be blank : ";
+
+            if (!int.TryParse(quantity, out _))
+                Error += "The quantity should be a number";
+            else if (Int32.Parse(quantity) > 500)
                 Error += "The quantity should not be more than 500 : ";
-            if (!types.Contains(type))
+            else if (Int32.Parse(quantity) <= 0)
+                Error += "The quantity should be a positive number : ";
+
+            if (type.Length == 0)
+                Error += "Type should not be blank : ";
+            else if (!types.Contains(type))
                 Error += "The type should be Food, Utils or Others : ";
+
             if (remark.Length > 50)
                 Error += "Remark is too long : ";
-            if (!DateTime.TryParse(time, out _))
+
+            if (time.Length == 0) { }
+            else if (!DateTime.TryParse(time, out _))
                 Error += "Time is invalid : ";
+
             return Error;
         }
     }
