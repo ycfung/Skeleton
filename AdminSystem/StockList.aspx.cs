@@ -51,4 +51,42 @@ public partial class StockList : System.Web.UI.Page
             lblError.Text = "Please select a record to edit from the list";
         }
     }
+
+    protected void DeleteButton_Click(object sender, EventArgs e)
+    {
+        Int32 Id;
+        if(lstStockList.SelectedIndex != -1)
+        {
+            Id = Convert.ToInt32(lstStockList.SelectedValue);
+            Session["Id"] = Id;
+            Response.Redirect("StockConfirmDelete.aspx");
+        }
+        else
+        {
+            lblError.Text = "Please select a record to delete from the list";
+        }
+    }
+
+    protected void ApplyButton_Click(object sender, EventArgs e)
+    {
+        clsStockCollection AllStocks = new clsStockCollection();
+        AllStocks.ReportByType(txtFilter.Text);
+        lstStockList.DataSource = AllStocks.StockList;
+        lstStockList.DataValueField = "Id";
+        lstStockList.DataTextField = "Name";
+        lstStockList.DataBind();
+    }
+
+    protected void ClearButton_Click(object sender, EventArgs e)
+    {
+        clsStockCollection AllStocks = new clsStockCollection();
+
+        txtFilter.Text = "";
+        AllStocks.ReportByType(txtFilter.Text);
+        lstStockList.DataSource = AllStocks.StockList;
+        lstStockList.DataValueField = "Id";
+        lstStockList.DataTextField = "Name";
+        lstStockList.DataBind();
+    }
+
 }

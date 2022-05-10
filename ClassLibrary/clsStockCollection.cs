@@ -30,13 +30,35 @@ namespace ClassLibrary
 
         public void Delete()
         {
-
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@Id", ThisStock.Id);
+            DB.Execute("sproc_tblStock_Delete");
         }
 
         public void ReportByType(string Type)
         {
-
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@Type", Type);
+            DB.Execute("sproc_tblStock_FilterByType");
+            this.stockList = new List<clsStock>();
+            Int32 Index = 0;
+            Int32 RecordCount = 0;
+            RecordCount = DB.Count;
+            while (Index < RecordCount)
+            {
+                clsStock AnStock = new clsStock();
+                AnStock.Id = Convert.ToString(DB.DataTable.Rows[Index]["Id"]);
+                AnStock.Name = Convert.ToString(DB.DataTable.Rows[Index]["name"]);
+                AnStock.Type = Convert.ToString(DB.DataTable.Rows[Index]["type"]);
+                AnStock.Remark = Convert.ToString(DB.DataTable.Rows[Index]["remark"]);
+                AnStock.Time = Convert.ToString(DB.DataTable.Rows[Index]["Time"]);
+                AnStock.Available = Convert.ToBoolean(DB.DataTable.Rows[Index]["available"]);
+                this.stockList.Add(AnStock);
+                Index++;
+            }
         }
+
+
 
         public void Update()
         {

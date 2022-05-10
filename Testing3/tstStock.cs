@@ -232,8 +232,36 @@ namespace Testing3
             AllStocks.ThisStock.Find(Convert.ToString(PrimaryKey));
             Assert.AreEqual(AllStocks.ThisStock, TestItem);
         }
+        [TestMethod]
+        public void DeleteMethodOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            clsStock TestItem = new clsStock();
+            Int32 PrimaryKey = 0;
+            TestItem.Id = "80";
+            TestItem.Name = "TestName";
+            TestItem.Quantity = "20";
+            TestItem.Type = "Food";
+            TestItem.Remark = "SampleRemark";
+            TestItem.Available = true;
+            TestItem.Time = DateTime.Now.Date.ToString();
+            AllStocks.ThisStock = TestItem;
+            PrimaryKey = AllStocks.Add();
+            AllStocks.ThisStock.Find(Convert.ToString(PrimaryKey));
+            AllStocks.Delete();
+            Boolean Found = AllStocks.ThisStock.Find(Convert.ToString(PrimaryKey));
+            Assert.IsFalse(Found);
 
-        
+        }
+
+        [TestMethod]
+        public void ReportByTypeOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            clsStockCollection FilteredStocks = new clsStockCollection();
+            FilteredStocks.ReportByType("Food");
+            Assert.AreEqual(AllStocks.Count, FilteredStocks.Count);
+        }
 
     }
 }
