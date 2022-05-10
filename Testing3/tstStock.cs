@@ -55,6 +55,21 @@ namespace Testing3
             Assert.IsTrue(OK);
         }
 
+        [TestMethod]
+        public void TestBlankName() {
+            clsStock clsStock = new clsStock();
+            string Error = clsStock.Valid("1", "", "2", "Food", "", "2022-05-03 16:36:55");
+            Assert.AreEqual(Error, "Name should not be blank : ");
+        }
+
+        [TestMethod]
+        public void TestTooLongName()
+        {
+            clsStock clsStock = new clsStock();
+            string Error = clsStock.Valid("1", "XXXXXXXXXX YYYYYYYYYY", "2", "Food", "", "2022-05-01 16:36:55");
+            Assert.AreEqual(Error, "The length of name is greater than 20 : ");
+        }
+
         public void TestModifyDateFound()
         {
             clsStock AnStock = new clsStock();
