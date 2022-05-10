@@ -53,6 +53,7 @@ namespace ClassLibrary
 
         public clsStockCollection()
         {
+            this.stockList = new List<clsStock>();
             Int32 Index = 0;
             Int32 RecordCount = 0;
             clsDataConnection DB = new clsDataConnection();

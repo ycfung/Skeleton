@@ -233,5 +233,7 @@ namespace Testing3
             Assert.AreEqual(AllStocks.ThisStock, TestItem);
         }
 
+        
+
     }
 }
