@@ -9,11 +9,12 @@ namespace ClassLibrary
 
 
 
-    class clsStockCollection
+    public class clsStockCollection
     {
-        private List<clsStock> StockList;
-        private Int32 Count;
-        private clsStock ThisStock;
+        List<clsStock> stockList;
+        Int32 count;
+        clsStock thisStock;
+
 
         public Int32 Add()
         {
@@ -35,19 +36,20 @@ namespace ClassLibrary
 
         }
 
-        public clsStockCollection(List<clsStock> stockList, int count, clsStock thisStock)
-        {
-            StockList1 = stockList;
-            Count1 = count;
-            ThisStock1 = thisStock;
-        }
-
         public clsStockCollection()
         {
         }
 
-        public List<clsStock> StockList1 { get => StockList; set => StockList = value; }
-        public int Count1 { get => Count; set => Count = value; }
-        public clsStock ThisStock1 { get => ThisStock; set => ThisStock = value; }
+        public clsStockCollection(List<clsStock> stockList, int count, clsStock thisStock)
+        {
+            this.stockList = stockList;
+            this.count = count;
+            this.thisStock = thisStock;
+        }
+
+        public List<clsStock> StockList { get => stockList; set => stockList = value; }
+        public int Count { get => count; set => count = value; }
+        public clsStock ThisStock { get => thisStock; set => thisStock = value; }
+
     }
 }

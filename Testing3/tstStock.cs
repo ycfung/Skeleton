@@ -57,14 +57,15 @@ namespace Testing3
 
 
         [TestMethod]
-        public void TestStockNotFound() {
+        public void TestStockNotFound()
+        {
             clsStock AnStock = new clsStock();
             AnStock.Id = "1";
-            Boolean Found = false;  
+            Boolean Found = false;
             Boolean OK = true;
             Int32 StockID = 1;
             Found = AnStock.Find(Convert.ToString(StockID));
-            if(AnStock.Id.Equals("1"))
+            if (AnStock.Id.Equals("1"))
             {
                 OK = false;
             }
@@ -72,7 +73,8 @@ namespace Testing3
         }
 
         [TestMethod]
-        public void TestBlankName() {
+        public void TestBlankName()
+        {
             clsStock clsStock = new clsStock();
             string Error = clsStock.Valid("1", "", "2", "Food", "", DateTime.Now.ToString());
             Assert.AreEqual(Error, "Name should not be blank : ");
@@ -94,7 +96,7 @@ namespace Testing3
             Boolean OK = true;
             Int32 StockID = 1;
             Found = AnStock.Find(Convert.ToString(StockID));
-            if(AnStock.Time != Convert.ToDateTime("16/09/2015").ToString())
+            if (AnStock.Time != Convert.ToDateTime("16/09/2015").ToString())
             {
                 OK = false;
             }
@@ -124,7 +126,7 @@ namespace Testing3
             Assert.AreEqual(clsStock.Id, TestData);
 
         }
-
+        [TestMethod]
         public void StockNamePropertyOK()
         {
             clsStock clsStock = new clsStock();
@@ -133,7 +135,7 @@ namespace Testing3
             Assert.AreEqual(clsStock.Name, TestData);
 
         }
-
+        [TestMethod]
         public void StockTypePropertyOK()
         {
             clsStock AnStock = new clsStock();
@@ -141,6 +143,54 @@ namespace Testing3
             Assert.AreEqual(AnStock.Type, "Food");
 
         }
+
+        [TestMethod]
+        public void StockListOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            List<clsStock> TestList = new List<clsStock>();
+            clsStock TestItem = new clsStock();
+            TestItem.Id = "1";
+            TestItem.Name = "TestName";
+            TestItem.Quantity = "20";
+            TestItem.Type = "Food";
+            TestItem.Remark = "SampleRemark";
+            TestItem.Available = true;
+            TestItem.Time = DateTime.Now.Date.ToString();
+
+            TestList.Add(TestItem);
+            AllStocks.StockList = TestList;
+            Assert.AreEqual(AllStocks.StockList, TestList);
+        }
+
+
+        [TestMethod]
+        public void CountProperty()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            Int32 SomeCount = 0;
+            AllStocks.Count = SomeCount;
+            Assert.AreEqual(AllStocks.Count, SomeCount);
+
+        }
+
+        [TestMethod]
+        public void ThisStockPropertyOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            clsStock TestItem = new clsStock();
+            TestItem.Id = "1";
+            TestItem.Name = "TestName";
+            TestItem.Quantity = "20";
+            TestItem.Type = "Food";
+            TestItem.Remark = "SampleRemark";
+            TestItem.Available = true;
+            TestItem.Time = DateTime.Now.Date.ToString();
+            AllStocks.ThisStock = TestItem;
+            Assert.AreEqual(AllStocks.ThisStock, TestItem);
+        }
+
+
 
 
     }
