@@ -19,6 +19,7 @@
     <form id="form1" runat="server">
         <div>
         </div>
+        <br />
         <asp:Label ID="lblID" runat="server" Text="ID" width="88px"></asp:Label>
         <asp:TextBox ID="TextBoxID" runat="server"></asp:TextBox>
         <asp:Button ID="FindButton" runat="server" OnClick="Find_Click" Text="Find" />
@@ -48,6 +49,9 @@
         <p>
             <asp:Button ID="ButtonSubmit" runat="server" OnClick="Submit" OnClientClick="onSubmit" Text="Submit" />
             <asp:Button ID="BackButton" runat="server" OnClick="GoBack" Text="Go Back" />
+        </p>
+        <p>
+             <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
         </p>
     </form>
 </body>

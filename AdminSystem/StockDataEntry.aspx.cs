@@ -16,19 +16,34 @@ public partial class _Default : System.Web.UI.Page
     protected void Submit(object sender, EventArgs e)
     {
         clsStock AnStock = new clsStock();
-        AnStock.Id = Convert.ToInt32(TextBoxID.Text);
-        AnStock.Name = TextBoxName.Text;
-        AnStock.Quantity = Convert.ToInt32(TextBoxQuantity.Text);
-        AnStock.Type = TextBoxType.Text;
-        AnStock.Remark = TextBoxRemark.Text;
-        AnStock.Available = Availablity.Checked;
-        if (TextBoxTime.Text.Length == 0)
-            AnStock.Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        string Id =TextBoxID.Text;
+        string Name = TextBoxName.Text;
+        string Quantity = TextBoxQuantity.Text;
+        string Type = TextBoxType.Text;
+        string Remark = TextBoxRemark.Text;
+        Boolean Available = Availablity.Checked;
+        string Time = TextBoxTime.Text;
+
+        string Error = "";
+        Error = AnStock.Valid(Id, Name, Quantity, Type, Remark, Time);
+        if(Error == "")
+        {
+            AnStock.Id = Id;
+            AnStock.Name = Name;
+            AnStock.Quantity = Quantity;
+            AnStock.Type = Type;
+            AnStock.Remark = Remark;
+            AnStock.Available = Available;
+            AnStock.Time = Time;
+            Session["AnStock"] = AnStock;
+            Response.Redirect("StockViewer.aspx");
+        }
         else
-            AnStock.Time = Convert.ToDateTime(TextBoxTime.Text).ToString();
-        Session["AnStock"] = AnStock;
-        //Response.Write(AnStock.quantity + '\n' + AnStock.name);
-        Response.Redirect("StockViewer.aspx");
+        {
+            lblError.Text = Error;
+        }
+
+
     }
     protected void GoBack(object sender, EventArgs e)
     {
@@ -40,9 +55,9 @@ public partial class _Default : System.Web.UI.Page
     protected void Find_Click(object sender, EventArgs e)
     {
         clsStock AnStock = new clsStock();
-        Int32 Id;
+        string Id;
         Boolean Found = false;
-        Id = Convert.ToInt32(TextBoxID.Text);
+        Id = TextBoxID.Text;
         Found = AnStock.Find(Id);
         if(Found == true)
         {

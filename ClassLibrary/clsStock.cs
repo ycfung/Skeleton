@@ -5,9 +5,9 @@ namespace ClassLibrary
 {
     public class clsStock
     {
-        private int id;
+        private string id;
         private string name;
-        private int quantity;
+        private string quantity;
         private string type;
         private string remark;
         private string time;
@@ -17,7 +17,7 @@ namespace ClassLibrary
 
         public clsStock() { }
 
-        public clsStock(int id, string name, int quantity, string type, string remark, string time, bool available)
+        public clsStock(string id, string name, string quantity, string type, string remark, string time, bool available)
         {
             this.id = id;
             this.name = name;
@@ -28,20 +28,20 @@ namespace ClassLibrary
             this.available = available;
         }
 
-        public int Id { get => id; set => id = value; }
+        public string Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
-        public int Quantity { get => quantity; set => quantity = value; }
+        public string Quantity { get => quantity; set => quantity = value; }
 
-        public bool Find(int stockID)
+        public bool Find(string stockID)
         {
             clsDataConnection DB = new clsDataConnection();
             DB.AddParameter("@Id", stockID);
             DB.Execute("sproc_tblStock_FilterById");
             if (DB.Count == 1)
             {
-                id = Convert.ToInt32(DB.DataTable.Rows[0]["Id"]);
+                id = Convert.ToString(DB.DataTable.Rows[0]["Id"]);
                 name = Convert.ToString(DB.DataTable.Rows[0]["Name"]);
-                quantity = Convert.ToInt32(DB.DataTable.Rows[0]["Quantity"]);
+                quantity = Convert.ToString(DB.DataTable.Rows[0]["Quantity"]);
                 type = Convert.ToString(DB.DataTable.Rows[0]["Type"]);
                 remark = Convert.ToString(DB.DataTable.Rows[0]["Remark"]);
                 time = Convert.ToString(DB.DataTable.Rows[0]["Time"]);
@@ -65,7 +65,7 @@ namespace ClassLibrary
             else if (!int.TryParse(id, out _))
                 Error += "Id should be a number : ";
             else if (Int32.Parse(id) <= 0)
-                Error += "Id should be a negative number : ";
+                Error += "Id should be a positive number : ";
 
             if (name.Length > 20)
                 Error += "The length of name is greater than 20 : ";
@@ -73,7 +73,7 @@ namespace ClassLibrary
                 Error += "Name should not be blank : ";
 
             if (!int.TryParse(quantity, out _))
-                Error += "The quantity should be a number";
+                Error += "The quantity should be a number : ";
             else if (Int32.Parse(quantity) > 500)
                 Error += "The quantity should not be more than 500 : ";
             else if (Int32.Parse(quantity) <= 0)
@@ -93,8 +93,10 @@ namespace ClassLibrary
             else
             {
                 DateTime DateTemp = Convert.ToDateTime(time);
-                if (DateTemp < DateTime.Now.Date)
+                if (DateTemp.Date < DateTime.Now.Date)
                     Error += "The date cannot be in the past : ";
+                else if (DateTemp.Date > DateTime.Now.Date)
+                    Error += "The date cannot be in the future : ";
 
             }
 

@@ -26,7 +26,7 @@ namespace Testing3
         public void ValidMethodOK()
         {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-16 16:36:55");
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", DateTime.Now.ToString());
             Assert.AreEqual(Error, "");
         }
 
@@ -47,16 +47,24 @@ namespace Testing3
             Assert.AreEqual(Error, "The date cannot be in the past : ");
         }
 
+        [TestMethod]
+        public void DateExtremeMax()
+        {
+            clsStock clsStock = new clsStock();
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-29 16:36:55");
+            Assert.AreEqual(Error, "The date cannot be in the future : ");
+        }
+
 
         [TestMethod]
         public void TestStockNotFound() {
             clsStock AnStock = new clsStock();
-            AnStock.Id = 1;
+            AnStock.Id = "1";
             Boolean Found = false;  
             Boolean OK = true;
             Int32 StockID = 1;
-            Found = AnStock.Find(StockID);
-            if(AnStock.Id != 1)
+            Found = AnStock.Find(Convert.ToString(StockID));
+            if(AnStock.Id.Equals("1"))
             {
                 OK = false;
             }
@@ -66,7 +74,7 @@ namespace Testing3
         [TestMethod]
         public void TestBlankName() {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "", "2", "Food", "", "2022-06-03 16:36:55");
+            string Error = clsStock.Valid("1", "", "2", "Food", "", DateTime.Now.ToString());
             Assert.AreEqual(Error, "Name should not be blank : ");
         }
 
@@ -74,7 +82,7 @@ namespace Testing3
         public void TestTooLongName()
         {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "XXXXXXXXXX YYYYYYYYYY", "2", "Food", "", "2022-06-01 16:36:55");
+            string Error = clsStock.Valid("1", "XXXXXXXXXX YYYYYYYYYY", "2", "Food", "", DateTime.Now.ToString());
             Assert.AreEqual(Error, "The length of name is greater than 20 : ");
         }
 
@@ -85,7 +93,7 @@ namespace Testing3
             Boolean Found = false;
             Boolean OK = true;
             Int32 StockID = 1;
-            Found = AnStock.Find(StockID);
+            Found = AnStock.Find(Convert.ToString(StockID));
             if(AnStock.Time != Convert.ToDateTime("16/09/2015").ToString())
             {
                 OK = false;
@@ -103,7 +111,7 @@ namespace Testing3
             clsStock clsStock = new clsStock();
             Boolean Found = false;
             Int32 StockID = 1;
-            Found = clsStock.Find(StockID);
+            Found = clsStock.Find(Convert.ToString(StockID));
             Assert.IsTrue(Found);
         }
 
@@ -111,7 +119,7 @@ namespace Testing3
         public void StockIdPropertyOK()
         {
             clsStock clsStock = new clsStock();
-            Int32 TestData = 123;
+            string TestData = "123";
             clsStock.Id = TestData;
             Assert.AreEqual(clsStock.Id, TestData);
 
