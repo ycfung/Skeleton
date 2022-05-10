@@ -11,14 +11,21 @@ namespace ClassLibrary
 
     public class clsStockCollection
     {
-        List<clsStock> stockList;
+        List<clsStock> stockList = new List<clsStock>();
         Int32 count;
-        clsStock thisStock;
+        clsStock thisStock = new clsStock();
 
 
-        public Int32 Add()
+        public int Add()
         {
-            return 0;
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@Id", ThisStock.Id);
+            DB.AddParameter("@name", ThisStock.Name);
+            DB.AddParameter("@quantity", ThisStock.Quantity);
+            DB.AddParameter("@type", ThisStock.Type);
+            DB.AddParameter("@Time", ThisStock.Time);
+            DB.AddParameter("@available", ThisStock.Available);
+            return DB.Execute("sproc_tblStock_Insert");
         }
 
         public void Delete()
@@ -33,11 +40,36 @@ namespace ClassLibrary
 
         public void Update()
         {
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@Id", ThisStock.Id);
+            DB.AddParameter("@name", ThisStock.Name);
+            DB.AddParameter("@quantity", ThisStock.Quantity);
+            DB.AddParameter("@type", ThisStock.Type);
+            DB.AddParameter("@Time", ThisStock.Time);
+            DB.AddParameter("@available", ThisStock.Available);
+            DB.Execute("sproc_tblStock_Update");
 
         }
 
         public clsStockCollection()
         {
+            Int32 Index = 0;
+            Int32 RecordCount = 0;
+            clsDataConnection DB = new clsDataConnection();
+            DB.Execute("sproc_tblStock_SelectAll");
+            RecordCount = DB.Count;
+            while(Index < RecordCount)
+            {
+                clsStock AnStock = new clsStock();
+                AnStock.Id = Convert.ToString(DB.DataTable.Rows[Index]["Id"]);
+                AnStock.Name = Convert.ToString(DB.DataTable.Rows[Index]["name"]);
+                AnStock.Type = Convert.ToString(DB.DataTable.Rows[Index]["type"]);
+                AnStock.Remark = Convert.ToString(DB.DataTable.Rows[Index]["remark"]);
+                AnStock.Time = Convert.ToString(DB.DataTable.Rows[Index]["Time"]);
+                AnStock.Available = Convert.ToBoolean(DB.DataTable.Rows[Index]["available"]);
+                this.stockList.Add(AnStock);
+                Index++;
+            }
         }
 
         public clsStockCollection(List<clsStock> stockList, int count, clsStock thisStock)
@@ -48,7 +80,7 @@ namespace ClassLibrary
         }
 
         public List<clsStock> StockList { get => stockList; set => stockList = value; }
-        public int Count { get => count; set => count = value; }
+        public int Count { get => StockList.Count; set => count = value; }
         public clsStock ThisStock { get => thisStock; set => thisStock = value; }
 
     }

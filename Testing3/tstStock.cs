@@ -57,7 +57,7 @@ namespace Testing3
 
 
         [TestMethod]
-        public void TestStockNotFound()
+        public void TestStockFound()
         {
             clsStock AnStock = new clsStock();
             AnStock.Id = "1";
@@ -65,9 +65,10 @@ namespace Testing3
             Boolean OK = true;
             Int32 StockID = 1;
             Found = AnStock.Find(Convert.ToString(StockID));
+            Console.WriteLine(Found);
             if (AnStock.Id.Equals("1"))
             {
-                OK = false;
+                OK = true;
             }
             Assert.IsTrue(OK);
         }
@@ -190,8 +191,47 @@ namespace Testing3
             Assert.AreEqual(AllStocks.ThisStock, TestItem);
         }
 
+        [TestMethod]
+        public void AddMethodOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            clsStock TestItem = new clsStock();
+            TestItem.Id = "10";
+            TestItem.Name = "TestName";
+            TestItem.Quantity = "20";
+            TestItem.Type = "Food";
+            TestItem.Remark = "SampleRemark";
+            TestItem.Available = true;
+            TestItem.Time = DateTime.Now.Date.ToString();
+            AllStocks.ThisStock = TestItem;
+            int PrimaryKey = AllStocks.Add();
+            AllStocks.ThisStock.Find(Convert.ToString(PrimaryKey));
+            Assert.AreEqual(AllStocks.ThisStock, TestItem);
+        }
 
 
+        [TestMethod]
+        public void UpdateMethodOK()
+        {
+            clsStockCollection AllStocks = new clsStockCollection();
+            clsStock TestItem = new clsStock();
+            Int32 PrimaryKey = 0;
+            TestItem.Id = "80";
+            TestItem.Name = "TestName";
+            TestItem.Quantity = "20";
+            TestItem.Type = "Food";
+            TestItem.Remark = "SampleRemark";
+            TestItem.Available = true;
+            TestItem.Time = DateTime.Now.Date.ToString();
+            AllStocks.ThisStock = TestItem;
+            PrimaryKey = AllStocks.Add();
+            TestItem.Id = Convert.ToString(PrimaryKey);
+            TestItem.Name = "UpdatedTestname";
+            AllStocks.ThisStock = TestItem;
+            AllStocks.Update();
+            AllStocks.ThisStock.Find(Convert.ToString(PrimaryKey));
+            Assert.AreEqual(AllStocks.ThisStock, TestItem);
+        }
 
     }
 }

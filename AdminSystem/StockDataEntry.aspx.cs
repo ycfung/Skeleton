@@ -8,8 +8,17 @@ using ClassLibrary;
 
 public partial class _Default : System.Web.UI.Page
 {
+    Int32 Id;
     protected void Page_Load(object sender, EventArgs e)
     {
+        Id = Convert.ToInt32(Session["Id"]);
+        if(IsPostBack == false)
+        {
+            if(Id != -1)
+            {
+                DisplayStock();
+            }
+        }
 
     }
 
@@ -35,8 +44,21 @@ public partial class _Default : System.Web.UI.Page
             AnStock.Remark = Remark;
             AnStock.Available = Available;
             AnStock.Time = Time;
-            Session["AnStock"] = AnStock;
-            Response.Redirect("StockViewer.aspx");
+            clsStockCollection stockCollection = new clsStockCollection();
+
+            if (Id.Equals("-1")){
+                stockCollection.ThisStock = AnStock;
+                stockCollection.Add();
+            }
+            else
+            {
+                stockCollection.ThisStock.Find(Id);
+                stockCollection.ThisStock = AnStock;
+                stockCollection.Update();
+            }
+
+
+            Response.Redirect("StockList.aspx");
         }
         else
         {
@@ -72,6 +94,22 @@ public partial class _Default : System.Web.UI.Page
             else Availablity.Checked = false;
 
         }
+
+    }
+
+    void DisplayStock()
+    {
+        clsStockCollection stockCollection = new clsStockCollection();
+        stockCollection.ThisStock.Find(Convert.ToString(Id));
+        TextBoxID.Text = stockCollection.ThisStock.Id.ToString();
+        TextBoxName.Text = stockCollection.ThisStock.Name;
+        TextBoxQuantity.Text = stockCollection.ThisStock.Quantity.ToString();
+        TextBoxType.Text = stockCollection.ThisStock.Type;
+        TextBoxRemark.Text = stockCollection.ThisStock.Remark;
+        TextBoxTime.Text = stockCollection.ThisStock.Time;
+        if (stockCollection.ThisStock.Available)
+            Availablity.Checked = true;
+        else Availablity.Checked = false;
 
     }
 }
