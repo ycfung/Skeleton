@@ -90,6 +90,13 @@ namespace ClassLibrary
             if (time.Length == 0) { }
             else if (!DateTime.TryParse(time, out _))
                 Error += "Time is invalid : ";
+            else
+            {
+                DateTime DateTemp = Convert.ToDateTime(time);
+                if (DateTemp < DateTime.Now.Date)
+                    Error += "The date cannot be in the past : ";
+
+            }
 
             return Error;
         }

@@ -26,7 +26,7 @@ namespace Testing3
         public void ValidMethodOK()
         {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-06 16:36:55");
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-16 16:36:55");
             Assert.AreEqual(Error, "");
         }
 
@@ -37,6 +37,14 @@ namespace Testing3
             clsStock clsStock = new clsStock();
             string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2022-05-32 16:36:55");
             Assert.AreEqual(Error, "Time is invalid : ");
+        }
+
+        [TestMethod]
+        public void DateExtremeMin()
+        {
+            clsStock clsStock = new clsStock();
+            string Error = clsStock.Valid("1", "SampleName", "2", "Food", "", "2021-05-01 16:36:55");
+            Assert.AreEqual(Error, "The date cannot be in the past : ");
         }
 
 
@@ -58,7 +66,7 @@ namespace Testing3
         [TestMethod]
         public void TestBlankName() {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "", "2", "Food", "", "2022-05-03 16:36:55");
+            string Error = clsStock.Valid("1", "", "2", "Food", "", "2022-06-03 16:36:55");
             Assert.AreEqual(Error, "Name should not be blank : ");
         }
 
@@ -66,7 +74,7 @@ namespace Testing3
         public void TestTooLongName()
         {
             clsStock clsStock = new clsStock();
-            string Error = clsStock.Valid("1", "XXXXXXXXXX YYYYYYYYYY", "2", "Food", "", "2022-05-01 16:36:55");
+            string Error = clsStock.Valid("1", "XXXXXXXXXX YYYYYYYYYY", "2", "Food", "", "2022-06-01 16:36:55");
             Assert.AreEqual(Error, "The length of name is greater than 20 : ");
         }
 
